@@ -1,125 +1,96 @@
 ﻿using System;
+using GalaSoft.MvvmLight.Command;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace Clima.ModelView
+namespace Clima.ViewModel
 {
-    public class WeatherViewModelPage : NotificableViewModel
+    using ModelView;
+    public class WeatherViewModelPage : NotificableModelView
     {
         #region Atributos
-        private string ubicacion;
-        private string pais;
-        private string resultTerm;
-        private string region;
-        private string ultimaActualizacion;
-        private string clima;
         private string temperatura;
-        private ImageSource imagen;
+        private ImageSource image;
+
+
         #endregion
 
         #region Propiedades
-        public string Region
-        {
-            get
-            {
-                return region;
-            }
-            set
-            {
-                SetValue(ref region, value);
-            }
-        }
 
-        public string UltimaActualizacion
+        public ImageSource Image
         {
-            get
-            {
-                return UltimaActualizacion;
-            }
-            set
-            {
-                SetValue(ref ultimaActualizacion, value);
-            }
-        }
-
-        public string Clima
-        {
-            get
-            {
-                return clima;
-            }
-            set
-            {
-                SetValue(ref clima, value);
-            }
+            get { return image; }
         }
 
 
-        public string Temperatura
+        public string ResultTerm
+private string resultTerm;
+
+        public string ResultTerm
+        {
+            get { return resultTerm; }
+            set
+
+
+        #endregion
+
+            #region Commandos
+
+        public ICommand BuscarCommand
         {
             get
             {
-                return Temperatura;
-            }
-            set
-            {
-                SetValue(ref temperatura, value);
+                return new RelayCommand(Buscar);
             }
         }
 
+        public string Ubicacion { get; private set; }
+        public string Pais { get; private set; }
+        public string Region { get; private set; }
+        public string UltimaActualizacion { get; private set; }
+        public string Temperatura { get; private set; }
+        public string Clima { get; private set; }
+        #endregion
 
-        public string Ubicacion
+        #region Metodos
+        private async void Buscar()
         {
-            get
-            {
-                return Ubicacion;
-            }
-            set
-            {
-                SetValue(ref ubicacion, value);
-            }
+            HttpClient cliente = new HttpClient();
+            cliente.BaseAddress = new Uri(ObtenerURL());
+            var response = await cliente.GetAsync(cliente.BaseAddress);
+            response.EnsureSuccessStatusCode();
+            var jsonResult = response.Content.ReadAsStringAsync().Result;
+            var weatherModel = Weather.FromJson(jsonResult);
+            FijarValores(weatherModel);
         }
 
-        public string Pais
+        private void FijarValores(Weather weatherModel)
         {
-            get
-            {
-                return Pais;
-            }
-            set
-            {
-                SetValue(ref pais, value);
-            }
+            Ubicacion = weatherModel.Query.Results.Channel.Location.City;
+            Pais = weatherModel.Query.Results.Channel.Location.Country;
+            Region = weatherModel.Query.Results.Channel.Location.Region;
+            UltimaActualizacion = weatherModel.Query.Results.Channel.Item.Condition.Date;
+            Temperatura = weatherModel.Query.Results.Channel.Item.Condition.Temp;
+            Clima = weatherModel.Query.Results.Channel.Item.Condition.Text
+            var img\Link = $"http://l.yimg.com/a/i/us/we/52/{}.gif"
         }
 
-        public string ResulTerm
+        private string ObtenerURL()
         {
-            get
-            {
-                return resultTerm;
-            }
-            set
-            {
-                SetValue(ref resultTerm, value);
-
-            }
-
+            string serviceURL = $"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22{ResultTerm}%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
+            return serviceURL;
         }
+        #endregion
 
-        public string ImageSource Imagen
-        {
-            get
-            {
-                return imagen;
-            }
-    set
-            {
-                SetValue(ref imagen, value);
+
+
+    }
+
+    public class NotificableModelView
+    {
+    }
 }
-
-#endregion
-
-
-
-

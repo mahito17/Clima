@@ -1,9 +1,117 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Clima.View.WeatherPage">
+             x:Class="Clima.View.WeatherPage"
+             xmlns:local="clr-namespace:Clima.ViewModel"
+             >
     <ContentPage.Resources>
         <ResourceDictionary>
-            <local.WeatherViewModel.Page x:Key="weathermodelview"></local.WeatherViewModel.Page>
+            <local:WeatherViewModelPage x:Key="weatherViewModel"></local:WeatherViewModelPage>
         </ResourceDictionary>
     </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <!--buscador-->
+                <RowDefinition></RowDefinition>
+                <!--formulario-->
+                <RowDefinition></RowDefinition>
+                <!--imagen-->
+            </Grid.RowDefinitions>
+            <!--buscador-->
+            <SearchBar Placeholder="Ingrese ciudad"
+                       Text="{Binding ResultTerm}"
+                       SearchCommand="{Binding BuscarCommand}"
+                       ></SearchBar>
+            <!--formulario-->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <!--fila ubicacion-->
+                    <RowDefinition></RowDefinition>
+                    <!--fila pais-->
+                    <RowDefinition></RowDefinition>
+                    <!--fila region-->
+                    <RowDefinition></RowDefinition>
+                    <!--fila actualizacion-->
+                    <RowDefinition></RowDefinition>
+                    <!--fila temperatura-->
+                    <RowDefinition></RowDefinition>
+                    <!--fila clima-->
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <!--columna 1 del formulartio-->
+                    <ColumnDefinition></ColumnDefinition>
+                    <!--columna 2 del formulario-->
+                </Grid.ColumnDefinitions>
+
+                <!--label ubicacion-->
+                <Label Text="Ubicacion" 
+                       FontAttributes="Bold"/>
+                <!--ciudad-->
+                <Label Text="{Binding Ubicacion}"
+                       Grid.Column="1"                      
+                       ></Label>
+                <!--label pais-->
+                <Label Text="Pais" 
+                       FontAttributes="Bold"
+                       Grid.Row="1"/>
+                <!--pais-->
+                <Label Text="{Binding Pais}"
+                       Grid.Column="1"
+                       Grid.Row="1"
+                       ></Label>
+                <!--label region-->
+                <Label Text="Region" 
+                       FontAttributes="Bold"
+                       Grid.Row="2"/>
+                <!--region-->
+                <Label Text="{Binding Region}"
+                       Grid.Column="1"
+                       Grid.Row="2"
+                       ></Label>
+                <!--label ultima Actualizacion-->
+                <Label Text="Ultima Actualizacion" 
+                       FontAttributes="Bold"
+                       Grid.Row="3"/>
+                <!--actulizacion-->
+                <Label Text="{Binding UltimaActualizacion}"
+                       Grid.Column="1"
+                       Grid.Row="3"
+                       ></Label>
+                <!--label temperatura-->
+                <Label Text="Temperatura" 
+                       FontAttributes="Bold"
+                       Grid.Row="4"/>
+                <!--temperatura-->
+                <Label Text="{Binding Temperatura}"
+                       Grid.Column="1"
+                       Grid.Row="4"
+                       ></Label>
+                <!--label Clima-->
+                <Label Text="Clima" 
+                       FontAttributes="Bold"
+                       Grid.Row="5"/>
+                <!--Clima-->
+                <Label Text="{Binding Clima}"
+                       Grid.Column="1"
+                       Grid.Row="5"
+                       ></Label>
+
+            </Grid>
+            <!--imagen-->
+            <Image Grid.Row="2"
+                       HeightRequest="200"
+                       WidthRequest="200"
+                       Source="{Binding Image}"
+                       ></Image>
+        </Grid>
+
+
+
+
+    </ContentPage.Content>
+</ContentPage>
