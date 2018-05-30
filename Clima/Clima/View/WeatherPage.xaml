@@ -10,23 +10,14 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid>
-
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <!--buscador-->
-                <RowDefinition></RowDefinition>
-                <!--formulario-->
-                <RowDefinition></RowDefinition>
-                <!--imagen-->
-            </Grid.RowDefinitions>
+        <StackLayout BindingContext="{Binding Source={StaticResource weatherViewModel}}">
             <!--buscador-->
             <SearchBar Placeholder="Ingrese ciudad"
                        Text="{Binding ResultTerm}"
                        SearchCommand="{Binding BuscarCommand}"
                        ></SearchBar>
             <!--formulario-->
-            <Grid Grid.Row="1">
+            <Grid >
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                     <!--fila ubicacion-->
@@ -103,15 +94,12 @@
 
             </Grid>
             <!--imagen-->
-            <Image Grid.Row="2"
+            <Image 
                        HeightRequest="200"
                        WidthRequest="200"
                        Source="{Binding Image}"
                        ></Image>
-        </Grid>
 
-
-
-
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

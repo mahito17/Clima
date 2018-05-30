@@ -9,12 +9,13 @@ using Xamarin.Forms.Xaml;
 
 namespace Clima.View
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class WeatherPage : ContentPage
-	{
-		public WeatherPage ()
-		{
-			InitializeComponent ();
-		}
-	}
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class WeatherPage : ContentPage
+    {
+        public WeatherPage()
+        {
+            InitializeComponent();
+        }
+    }
 }
+
